@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: Copyright 2025 Dr.Stug
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+
+import pyautogui
+import time
+
+# Optional: Import pyperclip for clipboard pasting (more reliable for special chars)
+try:
+    import pyperclip
+    CLIPBOARD_MODE = True  # Set to False to use typing mode
+except ImportError:
+    print("pyperclip not installed. Using typing mode. Install with: pip install pyperclip")
+    CLIPBOARD_MODE = False
+
+try:
+    print("Switch to Discord text input field in 5 seconds...")
+    time.sleep(5)
+
+    message = """Please activate your support privilege by visiting our <#1354357692499492864> and follow the steps it outlines in the <#1353621779800916009> channel.
+    
+    With worm regards,
+    
+    The Citroën LLC Legal Department."""
+
+    if CLIPBOARD_MODE:
+        # Clipboard paste: Ensures exact formatting and no character dropout
+        pyperclip.copy(message)
+        pyautogui.hotkey('ctrl', 'v')  # Paste
+        time.sleep(0.5)
+        pyautogui.press('enter')  # Send
+    else:
+        # Typing mode: Slower interval to prevent dropout
+        pyautogui.typewrite(message, interval=0.2)
+        pyautogui.press('enter')  # Send
+
+    time.sleep(2)
+    print("Message sent successfully! Check Discord for pings.")
+except Exception as e:
+    print(f"An error occurred: {e}")
